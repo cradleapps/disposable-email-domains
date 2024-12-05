@@ -1,6 +1,6 @@
-
 /**
  * Expose the disposable domains.
  */
+import disposableEmails from "./index.json" with { type: "json" };
 
-module.exports = require('./index.json');
+export default disposableEmails;

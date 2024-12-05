@@ -1,36 +1,39 @@
-const { writeFileSync, readFileSync } = require('fs')
-const _ = require('lodash')
+import { writeFileSync, readFileSync } from 'fs';
+import _ from 'lodash';
 
-var index = require('./index')
-var wildcard = require('./wildcard')
+import index from './index.js';
+import wildcard from './wildcard.js';
+
+let indexSort;
+let wildcardSort;
 
 // Add new domains
 const newDomains = readFileSync('./contributions/index.txt').toString().split("\n").filter(d => d)
-index = _.concat(index, newDomains)
+indexSort = _.concat(index, newDomains)
 
 const newWildcardDomains = readFileSync('./contributions/wildcard.txt').toString().split("\n").filter(d => d)
-wildcard = _.concat(wildcard, newWildcardDomains)
+wildcardSort = _.concat(wildcard, newWildcardDomains)
 
 // Remove empty strings
-index = index.filter(d => d)
-wildcard = wildcard.filter(d => d)
+indexSort = indexSort.filter(d => d)
+wildcardSort = wildcardSort.filter(d => d)
 
 // Lowercase
-index = index.map(domain => { return _.toLower(domain) })
-wildcard = wildcard.map(domain => { return _.toLower(domain) })
+indexSort = indexSort.map(domain => { return _.toLower(domain) })
+wildcardSort = wildcardSort.map(domain => { return _.toLower(domain) })
 
 // Sort
-index.sort()
-wildcard.sort()
+indexSort.sort()
+wildcardSort.sort()
 
 // Dedupe
-index = _.uniq(index)
-wildcard = _.uniq(wildcard)
+indexSort = _.uniq(indexSort)
+wildcardSort = _.uniq(wildcardSort)
 
 // Remove wildcards
 var regexp = new RegExp(/(.+(?:\.[\w-]+\.[\w-]+)+)$/)
 
-index = index
+indexSort = indexSort
     .filter(domain => {
         if (regexp.test(domain)) {
             return ! wildcard.filter(wildcard => {
@@ -40,5 +43,5 @@ index = index
         return true
     })
 
-writeFileSync('index.json', JSON.stringify(index, null, 2))
-writeFileSync('wildcard.json', JSON.stringify(wildcard, null, 2))
+writeFileSync('index.json', JSON.stringify(indexSort, null, 2))
+writeFileSync('wildcard.json', JSON.stringify(wildcardSort, null, 2))

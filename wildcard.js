@@ -2,5 +2,6 @@
 /**
  * Expose the wildcard disposable domains.
  */
+import wildcard from "./wildcard.json" with { type: "json" };
 
-module.exports = require('./wildcard.json');
+export default wildcard;

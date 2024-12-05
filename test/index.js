@@ -1,9 +1,10 @@
-const _ = require('lodash');
-const domains = require('../index');
-const chai = require('chai');
+import _ from 'lodash';
+import domains from '../index.js';
+import chai from 'chai';
 const expect = chai.expect;
+import sorted from 'chai-sorted';
 
-chai.use(require("chai-sorted"));
+chai.use(sorted);
 chai.use(require('./helpers/lowercase'));
 chai.use(require('./helpers/isFQDN'));
 chai.use(require('./helpers/notInWildcard'));
